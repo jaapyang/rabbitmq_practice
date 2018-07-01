@@ -17,24 +17,24 @@ namespace RabbitMQ.Practice.ClsApp.SendProcesser
             string message = Console.ReadLine();
             var body = message.GetBytesByUtf8();
 
-            var factory = new ConnectionFactory() {HostName = ApplicationContext.Instance.RabbitMq.HostName};
+            var factory = new ConnectionFactory() {HostName = CoreContext.Instance.RabbitMq.HostName};
 
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: ApplicationContext.Instance.RabbitMq.Queue,
-                    durable:ApplicationContext.Instance.RabbitMq.Durable,
-                    exclusive: ApplicationContext.Instance.RabbitMq.Exclusive,
-                    autoDelete: ApplicationContext.Instance.RabbitMq.AutoDelete,
+                channel.QueueDeclare(queue: CoreContext.Instance.RabbitMq.Queue,
+                    durable:CoreContext.Instance.RabbitMq.Durable,
+                    exclusive: CoreContext.Instance.RabbitMq.Exclusive,
+                    autoDelete: CoreContext.Instance.RabbitMq.AutoDelete,
                     arguments:null);
                 
-                channel.BasicPublish(exchange: ApplicationContext.Instance.RabbitMq.Exchange,
-                    routingKey: ApplicationContext.Instance.RabbitMq.RoutingKey,
+                channel.BasicPublish(exchange: CoreContext.Instance.RabbitMq.Exchange,
+                    routingKey: CoreContext.Instance.RabbitMq.RoutingKey,
                     basicProperties:null,
                     body:body);
 
                 Console.WriteLine($" [x] Sent message: {message}");
-                ApplicationContext.Instance.Logger.Debug(message.AppendLine(channel.GetType().FullName));
+                CoreContext.Instance.Logger.Debug(message.AppendLine(channel.GetType().FullName));
             }
 
             Console.WriteLine(" Press [enter] to exit.");

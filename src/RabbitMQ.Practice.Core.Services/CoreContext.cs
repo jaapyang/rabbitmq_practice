@@ -1,12 +1,12 @@
 ﻿namespace RabbitMQ.Practice.Core.Services
 {
-    public class ApplicationContext
+    public class CoreContext
     {
-        public static ApplicationContext Instance { get; }
+        public static CoreContext Instance { get; }
 
-        static ApplicationContext()
+        static CoreContext()
         {
-            Instance = new ApplicationContext
+            Instance = new CoreContext
             {
                 RabbitMq = new RabbitMqConfig(),
                 Logger = new LocalLog()
