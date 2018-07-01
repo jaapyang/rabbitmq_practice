@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationContext.cs" />
+    <Compile Include="GlobalContext.cs" />
     <Compile Include="LocalLog.cs" />
     <Compile Include="RabbitMqConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

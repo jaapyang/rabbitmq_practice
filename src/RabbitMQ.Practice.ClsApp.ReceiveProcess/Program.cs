@@ -14,21 +14,21 @@ namespace RabbitMQ.Practice.ClsApp.ReceiveProcess
     {
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory() {HostName = ApplicationContext.Instance.RabbitMq.HostName};
+            var factory = new ConnectionFactory() {HostName = GlobalContext.Instance.RabbitMq.HostName};
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: ApplicationContext.Instance.RabbitMq.Queue,
-                    durable: ApplicationContext.Instance.RabbitMq.Durable,
-                    exclusive: ApplicationContext.Instance.RabbitMq.Exclusive,
-                    autoDelete: ApplicationContext.Instance.RabbitMq.AutoDelete,
+                channel.QueueDeclare(queue: GlobalContext.Instance.RabbitMq.Queue,
+                    durable: GlobalContext.Instance.RabbitMq.Durable,
+                    exclusive: GlobalContext.Instance.RabbitMq.Exclusive,
+                    autoDelete: GlobalContext.Instance.RabbitMq.AutoDelete,
                     arguments: null);
 
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += OnMessageReceived;
 
-                channel.BasicConsume(queue: ApplicationContext.Instance.RabbitMq.Queue,
-                    autoAck: ApplicationContext.Instance.RabbitMq.AutoAck,
+                channel.BasicConsume(queue: GlobalContext.Instance.RabbitMq.Queue,
+                    autoAck: GlobalContext.Instance.RabbitMq.AutoAck,
                     consumer: consumer);
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
@@ -38,7 +38,7 @@ namespace RabbitMQ.Practice.ClsApp.ReceiveProcess
         private static void OnMessageReceived(object sender, BasicDeliverEventArgs e)
         {
             var message = e.Body.GetStringByUtf8();
-            ApplicationContext.Instance.Logger.Debug(message);
+            GlobalContext.Instance.Logger.Debug(message);
             Console.WriteLine($" [x] Received message: {message}");
         }
     }
